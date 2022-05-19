@@ -4,7 +4,7 @@
  // ESPAÇO PARA CRIAR FUNÇÕES
 
 int main(){
-
+    
     int id; // VARIAVEL PARA PEGAR ID DO FUNCIONÁRIO
 
     printf("______________________________ \n");
