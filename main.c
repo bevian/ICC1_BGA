@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
  // ESPAÇO PARA CRIAR FUNÇÕES
 
@@ -15,7 +16,6 @@ int main(){
     printf("|                            | \n");
     printf("|                            | \n");
     printf("|____________________________|\n");
-
 
     // IF PARA VER SE O FUNCIONARIO VAI SER DE CADASTROS
     if(id == 1){
@@ -38,31 +38,56 @@ int main(){
                 
                 printf("Cadastrar produtos \n");
 
-            } 
-            
-            // ELSE PARA CADASTRO DE VENDAS
-            else {
-                printf("Cadastrar vendas \n");
+                FILE *arquivo;
+
+                arquivo = fopen("teste.txt", "w"); 
+
+                if(arquivo == NULL){
+                    printf("erro!");
+                    exit(0);
+                }
+
+                fprintf(arquivo, "Ola estou funcionando \n"); //Exibindo no arquivo
+
+                // Primeiro número 
+                int n1;	
+
+                printf("Insira o ID do produto: ");
+                scanf("%d", &n1);
+                fprintf(arquivo, "ID produto = %d \n", n1);
+                fprintf(stdout, "ID produto = %d \n", n1);
+
+
+            } else {
+                // IF PARA ENTRAR NO CADASTRO DE VENDA
+                if(a == 2){
+                    printf("Cadastrar vendas \n");
+                } 
+                // ELSE CASO ELE NÃO COLOQUE 1 OU 2
+                else {
+                    printf("opção inválida! \n");
+                }
             }
 
-    }
-    
-    // ELSE CASO O FUNCIONARIO SEJA DE VISUALIZAÇÃO DE ESTOQUE
-    else {
+    } else {
+        // IF PARA VER SE O FUNCIONARIO VAI SER DE VISUALIZAÇÃO
+        if(id == 2){
 
-        // TABELA DE VISUAL DOS PRODUTOS INSERIDOS NO ESTOQUE
-        printf("_________________________________ \n");
-        printf("|  ID  |  QUANTIDADE  | OUTROS  | \n");
-        printf("|______|______________|_________| \n");
-        printf("|      |              |         | \n");
-        printf("|      |              |         | \n");
-        printf("|      |              |         | \n");
-        printf("|      |              |         | \n");
-        printf("|      |              |         | \n");
-        printf("|______|______________|_________| \n");
-        
+            // TABELA DE VISUAL DOS PRODUTOS INSERIDOS NO ESTOQUE
+            printf("_________________________________ \n");
+            printf("|  ID  |  QUANTIDADE  | OUTROS  | \n");
+            printf("|______|______________|_________| \n");
+            printf("|      |              |         | \n");
+            printf("|      |              |         | \n");
+            printf("|      |              |         | \n");
+            printf("|      |              |         | \n");
+            printf("|      |              |         | \n");
+            printf("|______|______________|_________| \n");
+        } else {
+            //NÃO INSERIU UM ID VÁLIDO
+            printf("ID Inválido! \n");
+        }   
     }
-
 
     return 0;
 }
