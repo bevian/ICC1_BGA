@@ -97,20 +97,16 @@ int main(){
 
                 //FIM BLOCO PARA POPULA
 
-                //TALVEZ COLOCAR OPCAO DE GERAR RELATORIO AQUI (ANDREGHEIT)
-
 
             } else {
                 // IF PARA ENTRAR NO CADASTRO DE VENDA
                 if(a == 2){
                     printf("Cadastrar vendas \n");
-                    //BLOCO PARA CADASTRAR VENDA 
+                    //BLOCO PARA CADASTRAR VENDA (BRENO)
 
 
-                    //FIM BLOCO CADASTRAR VENDA
+                    //FIM BLOCO CADASTRAR VENDA (BRENO)
 
-                    
-                   //TALVEZ COLOCAR OPCAO DE GERAR RELATORIO AQUI (ANDREGHEIT)
                 } 
                 // ELSE CASO ELE NÃO COLOQUE 1 OU 2
                 else {
@@ -162,7 +158,7 @@ int main(){
 
             //FIM BLOCO PRA TRAZER OS DADOS DO TXT
 
-            // TABELA DE VISUAL DOS PRODUTOS INSERIDOS NO ESTOQUE
+            // TABELA DE VISUAL DOS PRODUTOS INSERIDOS NO ESTOQUE (ADRIANO)
             printf("_________________________________ \n");
             printf("|  ID  |  QUANTIDADE  | OUTROS  | \n");
             printf("|______|______________|_________| \n");
@@ -173,7 +169,13 @@ int main(){
             printf("|      |              |         | \n");
             printf("|______|______________|_________| \n");
 
-             //TALVEZ COLOCAR OPCAO DE GERAR RELATORIO AQUI (ANDREGHEIT)
+
+             //BLOCO DE VISUALIZACAO DAS VENDAS (ADRIANO)
+
+
+             //FIM BLOCO VISUALIZACAO DAS VENDAS
+
+            //TALVEZ COLOCAR OPCAO DE GERAR RELATORIO AQUI DE VENDAS (ANDREGHEIT)
         } else {
             //NÃO INSERIU UM ID VÁLIDO
             printf("ID Inválido! \n");
