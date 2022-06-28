@@ -5,6 +5,17 @@
 #include <locale.h>
  // ESPAÇO PARA CRIAR FUNÇÕES
 
+ void tabela(int cod, char prod[99], char descri[150], float valor, int quant){
+
+    fprintf(stdout, "   %d", cod);
+    fprintf(stdout, "          %s", prod);
+    fprintf(stdout, "         %s", descri);
+    fprintf(stdout, "           %f", valor);
+    fprintf(stdout, "         %d\n", quant);
+
+}
+
+/*
  void relatorioMes(int x){
 
     char arquivo_csv[50];
@@ -13,6 +24,45 @@
     char auxDescvend[150];
     char datavend[150];
     float valVvend;
+
+
+    //BUSCA QUAL A CORRESPONDENCIA
+    if(x==1){
+          char mes[2] = "01";
+    }else
+     if(x==2){
+          char mes[2] = "02";
+    }
+     if(x==3){
+          char mes[2] = "03";
+    }else
+     if(x==4){
+          char mes[2] = "04";
+    }else
+     if(x==5){
+          char mes[2] = "05";
+    }else
+     if(x==6){
+          char mes[2] = "06";
+    }else
+     if(x==7){
+          char mes[2] = "07";
+    }else
+     if(x==8){
+          char mes[2] = "08";
+    }else
+     if(x==9){
+          char mes[2] = "09";
+    }else
+     if(x==10){
+          char mes[2] = "10";
+    }else
+     if(x==11){
+          char mes[2] = "11";
+    }else
+     if(x==12){
+          char mes[2] = "12";
+    }
 
 
     FILE *arquivo;
@@ -45,6 +95,30 @@
         printf("%f\n",valVvend);
         printf("%s\n",datavend);
 
+        //QUEBRA PRA PEGAR O MES
+        int c = 0;
+        char *pt;
+
+        pt = strtok(datavend, "-");
+        while(pt){
+            printf("token: %s\n", pt);
+            c++;
+            if(c==2){
+                //achou o mes
+                if(pt==mes){
+                    printf("achei");
+                    //Imprime no relatorio
+                    return 0;
+                }
+                 printf(" n achei");
+                    return 0;
+
+            }
+            pt = strtok(NULL, "-");
+        }
+
+        return 0;
+
         fprintf(pont_arq, "\n%d;%s;%d;%f;%s;",cnovo,auxDescvend,auxQtdvend,valVvend,datavend);
     }
 
@@ -54,7 +128,7 @@
     printf("\n O relatorio foi criado com sucesso!");
 
 
- }
+ }*/
 
 int main(){
     setlocale(LC_ALL, "Portuguese_Brazil"); //PERMITE ACENTOS
@@ -237,6 +311,11 @@ int main(){
             if (arquivo == NULL)
                 return EXIT_FAILURE;
 
+            //MONTA A TABELA AQUI, USANDO ESSAS VARIAVEIS
+            printf("****************************** \n");
+            printf("*  ID  *     PODUTO     *          DESCRICAO          *     VALOR     *  QUANTIDADE  *  \n");
+            printf("****************************** \n");
+
             while(!feof(arquivo))
             {
                 fscanf(arquivo, "%d\n", &codArq);
@@ -256,7 +335,10 @@ int main(){
                 printf("%s\n",dtArq);
                 */
 
-                //MONTA A TABELA AQUI, USANDO ESSAS VARIAVEIS
+
+                tabela(cnovo,descArq,descArq,valUArq,qtdArq);
+
+
             }
 
             //FIM BLOCO PRA TRAZER OS DADOS DO TXT
@@ -290,7 +372,7 @@ int main(){
                             if(band2 == 1){
                                 printf("\n Escolha o mês (1 - 12): ");
                                 scanf("%d", &mesrelat);
-                                relatorioMes(mesrelat);
+                                //relatorioMes(mesrelat);
                             }
 
                         }
