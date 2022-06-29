@@ -5,16 +5,14 @@
 
  // ESPAÇO PARA CRIAR FUNÇÕES
 
- void tabela(int cod, char prod[99], char descri[150], float valor, int quant){
+ void tabela(int cod, char prod[99], float valor, int quant){
 
     fprintf(stdout, "   %d", cod);
-    fprintf(stdout, "          %s", prod);
-    fprintf(stdout, "         %s", descri);
-    fprintf(stdout, "           %f", valor);
-    fprintf(stdout, "         %d\n", quant);
+    fprintf(stdout, "         %s", prod);
+    fprintf(stdout, "            %.2f", valor);
+    fprintf(stdout, "            %d\n", quant);
 
 }
-
 
  void relatorioMes(int x){
 
@@ -77,9 +75,7 @@
 
     fclose(pont_arq);
 
-
     printf("\n O relatorio mensal foi criado com sucesso!");
-
 
  }
 
@@ -203,7 +199,6 @@
                     //soma
                     soma+= valVvend;
                 }
-
             }
             pt = strtok(NULL, "-");
         }
@@ -213,11 +208,13 @@
 
     fclose(pont_arq);
 
-
     printf("\n O relatorio de soma do mes foi criado com sucesso!");
 
-
  }
+
+ /*
+    FIM DAS FUNÇÕES, COMEÇO DO CÓDIGO MAIN
+ */
 
 int main(){
     setlocale(LC_ALL, "Portuguese"); //PERMITE ACENTOS
@@ -334,7 +331,6 @@ int main(){
 
                 //FIM BLOCO PARA POPULAR O BANCO DE PRODUTOS
 
-
             } else {
                 // IF PARA ENTRAR NO CADASTRO DE VENDA
                 if(a == 2){
@@ -407,9 +403,11 @@ int main(){
                 return EXIT_FAILURE;
 
             //MONTA A CABECALHO ANTES DE ENTRAR NO LOOP
-            printf("****************************** \n");
-            printf("*  ID  *     PRODUTO     *          DESCRICAO          *     VALOR     *  QUANTIDADE  *  \n");
-            printf("****************************** \n");
+            printf("\n");
+            printf("                ESTOQUE ATUAL DE PRODUTOS                 \n");
+            printf("********************************************************* \n");
+            printf("*  ID  *     PRODUTO     *     VALOR     *  QUANTIDADE  * \n");
+            printf("********************************************************* \n");
 
             while(!feof(arquivo))
             {
@@ -421,19 +419,18 @@ int main(){
                 fscanf(arquivo, "%f\n", &valVArq);
                 fscanf(arquivo, "%s\n", &dtArq);
 
-                tabela(cnovo,descArq,descArq,valUArq,qtdArq);
-
+                tabela(cnovo,descArq,valUArq,qtdArq);
 
             }
             printf("\n");
 
-                  printf("___________\n");
+                        printf("_________________________________\n");
                         printf("|                               |\n");
-                        printf("| 1. GERAR RELATORIO VENDAS            |\n");
+                        printf("| 1. GERAR RELATORIO VENDAS     |\n");
                         printf("| 2. SAIR                       |\n");
-                        printf("  OPCAO: ");
+                        printf("| OPCAO: ");
                         scanf("%d", &band1);
-                        printf("|___________|\n");
+                        printf("|_______________________________|\n");
 
                         if(band1 == 1){
                             printf("\nTIPOS DE RELATORIO:\n");
@@ -468,7 +465,6 @@ int main(){
                         if(band1 == 2){
                             exit(0);
                         }
-
 
         } else {
             //NÃO INSERIU UM ID VÁLIDO
