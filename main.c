@@ -1,8 +1,8 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
+
  // ESPAÇO PARA CRIAR FUNÇÕES
 
  void tabela(int cod, char prod[99], char descri[150], float valor, int quant){
@@ -15,54 +15,15 @@
 
 }
 
-/*
+
  void relatorioMes(int x){
 
     char arquivo_csv[50];
     char letra;
     int auxCodvend, auxQtdvend, cnovo;
     char auxDescvend[150];
-    char datavend[150];
+    char datavend[150],auxdatavend[150];
     float valVvend;
-
-
-    //BUSCA QUAL A CORRESPONDENCIA
-    if(x==1){
-          char mes[2] = "01";
-    }else
-     if(x==2){
-          char mes[2] = "02";
-    }
-     if(x==3){
-          char mes[2] = "03";
-    }else
-     if(x==4){
-          char mes[2] = "04";
-    }else
-     if(x==5){
-          char mes[2] = "05";
-    }else
-     if(x==6){
-          char mes[2] = "06";
-    }else
-     if(x==7){
-          char mes[2] = "07";
-    }else
-     if(x==8){
-          char mes[2] = "08";
-    }else
-     if(x==9){
-          char mes[2] = "09";
-    }else
-     if(x==10){
-          char mes[2] = "10";
-    }else
-     if(x==11){
-          char mes[2] = "11";
-    }else
-     if(x==12){
-          char mes[2] = "12";
-    }
 
 
     FILE *arquivo;
@@ -71,14 +32,16 @@
     if (arquivo == NULL)
         return EXIT_FAILURE;
 
-    char nomeRelatorio[100] = "relatorio_mes_1.csv";
+
+    char nomeRelatorio[100] = "relatorio_mes.csv";
 
     //CRIA O ARQUIVO
      FILE *pont_arq;
      pont_arq = fopen(nomeRelatorio, "a");
 
      //POE O CABECALHO
-     fprintf(pont_arq, "codProduto;descricaoProduto;qtdProduto;valorProduto;dataProduto");
+     fprintf(pont_arq, "VENDAS DO MES %d",x);
+     fprintf(pont_arq, "\ncodProduto;descricaoProduto;qtdProduto;valorProduto;dataVenda");
 
     while(!feof(arquivo))
     {
@@ -89,11 +52,7 @@
         fscanf(arquivo, "%f\n", &valVvend);
         fscanf(arquivo, "%s\n", &datavend);
 
-        printf("%d\n",cnovo);
-        printf("%s\n",auxDescvend);
-        printf("%d\n",auxQtdvend);
-        printf("%f\n",valVvend);
-        printf("%s\n",datavend);
+        strcpy (auxdatavend,datavend);
 
         //QUEBRA PRA PEGAR O MES
         int c = 0;
@@ -101,43 +60,209 @@
 
         pt = strtok(datavend, "-");
         while(pt){
-            printf("token: %s\n", pt);
             c++;
             if(c==2){
-                //achou o mes
-                if(pt==mes){
-                    printf("achei");
+                //achou o mes, transforma em int
+                int num;
+                num = strtol(pt, NULL, 10);
+                if(num==x){
                     //Imprime no relatorio
-                    return 0;
+                    fprintf(pont_arq, "\n%d;%s;%d;%f;%s;",cnovo,auxDescvend,auxQtdvend,valVvend,auxdatavend);
                 }
-                 printf(" n achei");
-                    return 0;
 
             }
             pt = strtok(NULL, "-");
         }
-
-        return 0;
-
-        fprintf(pont_arq, "\n%d;%s;%d;%f;%s;",cnovo,auxDescvend,auxQtdvend,valVvend,datavend);
     }
 
     fclose(pont_arq);
 
 
-    printf("\n O relatorio foi criado com sucesso!");
+    printf("\n O relatorio mensal foi criado com sucesso!");
 
 
- }*/
+ }
+
+ void relatorioAno(int x){
+
+    char arquivo_csv[50];
+    char letra;
+    int auxCodvend, auxQtdvend, cnovo;
+    char auxDescvend[150];
+    char datavend[150],auxdatavend[150];
+    float valVvend;
+
+
+    FILE *arquivo;
+    arquivo = fopen("cadastro_de_vendas.txt", "r");
+
+    if (arquivo == NULL)
+        return EXIT_FAILURE;
+
+
+    char nomeRelatorio[100] = "relatorio_ano.csv";
+
+    //CRIA O ARQUIVO
+     FILE *pont_arq;
+     pont_arq = fopen(nomeRelatorio, "a");
+
+     //POE O CABECALHO
+     fprintf(pont_arq, "VENDAS DO ANO %d",x);
+     fprintf(pont_arq, "\ncodProduto;descricaoProduto;qtdProduto;valorProduto;dataVenda");
+
+    while(!feof(arquivo))
+    {
+        fscanf(arquivo, "%d\n", &auxCodvend);
+        cnovo = auxCodvend;
+        fscanf(arquivo, "%s\n", &auxDescvend);
+        fscanf(arquivo, "%d\n", &auxQtdvend);
+        fscanf(arquivo, "%f\n", &valVvend);
+        fscanf(arquivo, "%s\n", &datavend);
+
+        strcpy (auxdatavend,datavend);
+
+        //QUEBRA PRA PEGAR O ANO
+        int c = 0;
+        char *pt;
+
+        pt = strtok(datavend, "-");
+        while(pt){
+            c++;
+            if(c==3){
+                //achou o ANO, transforma em int
+                int num;
+                num = strtol(pt, NULL, 10);
+                if(num==x){
+                    //Imprime no relatorio
+                    fprintf(pont_arq, "\n%d;%s;%d;%f;%s;",cnovo,auxDescvend,auxQtdvend,valVvend,auxdatavend);
+                }
+
+            }
+            pt = strtok(NULL, "-");
+        }
+    }
+
+    fclose(pont_arq);
+
+
+    printf("\n O relatorio anual foi criado com sucesso!");
+
+
+ }
+
+ void relatorioSomaMes(int x){
+
+    char arquivo_csv[50];
+    char letra;
+    int auxCodvend, auxQtdvend, cnovo;
+    char auxDescvend[150];
+    char datavend[150],auxdatavend[150];
+    float valVvend;
+    float soma = 0;
+
+
+    FILE *arquivo;
+    arquivo = fopen("cadastro_de_vendas.txt", "r");
+
+    if (arquivo == NULL)
+        return EXIT_FAILURE;
+
+
+    char nomeRelatorio[100] = "relatorio_soma_mes.csv";
+
+    //CRIA O ARQUIVO
+     FILE *pont_arq;
+     pont_arq = fopen(nomeRelatorio, "a");
+
+     //POE O CABECALHO
+     fprintf(pont_arq, "SOMATORIO VENDAS DO MES %d",x);
+
+    while(!feof(arquivo))
+    {
+        fscanf(arquivo, "%d\n", &auxCodvend);
+        cnovo = auxCodvend;
+        fscanf(arquivo, "%s\n", &auxDescvend);
+        fscanf(arquivo, "%d\n", &auxQtdvend);
+        fscanf(arquivo, "%f\n", &valVvend);
+        fscanf(arquivo, "%s\n", &datavend);
+
+        strcpy (auxdatavend,datavend);
+
+        //QUEBRA PRA PEGAR O MES
+        int c = 0;
+        char *pt;
+
+        pt = strtok(datavend, "-");
+        while(pt){
+            c++;
+            if(c==2){
+                //achou o MES, transforma em int
+                int num;
+                num = strtol(pt, NULL, 10);
+                if(num==x){
+                    //soma
+                    soma+= valVvend;
+                }
+
+            }
+            pt = strtok(NULL, "-");
+        }
+    }
+
+    fprintf(pont_arq, "\nSOMA:;R$%f;",soma);
+
+    fclose(pont_arq);
+
+
+    printf("\n O relatorio de soma do mes foi criado com sucesso!");
+
+
+ }
 
 int main(){
-    setlocale(LC_ALL, "Portuguese_Brazil"); //PERMITE ACENTOS
+    setlocale(LC_ALL, "Portuguese"); //PERMITE ACENTOS
+
+    //DEFINICAO DE VARIAVEIS
+
+    //BLOCO CADASTRO DE PRODUTOS
+    int band = 1;
+    int auxCod, auxQtd, auxD, auxM, auxA;
+    int novoQtd = 0;
+    char auxDesc[150];
+    char teste[150];
+    char data[10];
+    float valU, valV;
+
+    //BLOCO CADASTRO DE VENDA
+    int prosseg = 1;
+    int auxCodvend = 0, auxQtdvend = 0;
+    char auxDescvend[150];
+    char datavend[100];
+    float valVvend = 0;
+
+    //BLOCO TELA DE VISUALIZACAO
+    char line[99999];
+    int codArq;
+    int cnovo;
+    int qtdArq;
+    char descArq[99999];
+    char dtArq[99999];
+    float valUArq;
+    float valVArq;
+
+    //BLOCO RELATORIO
+    int band1;
+    int band2;
+    int mesrelat;
+    int anorelat;
 
     int id; // VARIAVEL PARA PEGAR ID DO FUNCIONÁRIO
+    int a; // PEGAR  A OPCAO
 
+    printf("LEIA O README ANTES DE INICIAR\n");
     printf("______________________________ \n");
     printf("|                            | \n");
-    printf("| Insira o ID do funcionário | \n");
+    printf("| Insira o ID do funcionario | \n");
     printf("|                            | \n");
     printf("             ");
     scanf("%d", &id);
@@ -147,8 +272,6 @@ int main(){
 
     // IF PARA VER SE O FUNCIONARIO VAI SER DE CADASTROS
     if(id == 1){
-
-        int a;
 
         printf("______________________________ \n");
         printf("|                            | \n");
@@ -161,45 +284,24 @@ int main(){
         printf("|                            | \n");
         printf("|____________________________|\n");
 
-            // IF PARA ENTRAR NO CADASTRO DE PRODUTOS (BIA)
+            // IF PARA ENTRAR NO CADASTRO DE PRODUTOS
             if(a == 1){
 
-                printf("TELA Cadastrar produtos \n");
+                printf("TELA Cadastrar produtos\n");
 
-
+                //ABRE O DOC COM OS PRODUTOS
                 FILE *pont_arq;
-
-                //EXECUTAR ISSO AQUI PRA CRIAR O ARQUIVO (PRIMEIRA EXECUCAO)
-
-                /*
-                pont_arq = fopen("bancoProd.txt", "a");
-
-                fclose(pont_arq);
-
-                printf("O arquivo foi criado com sucesso!");
-
-                return 0;
-                */
-
-
-                int band = 1;
-                int auxCod, auxQtd, auxD, auxM, auxA;
-                int novoQtd = 0;
-                char auxDesc[150];
-                char teste[150];
-                char data[10];
-                float valU, valV;
-
                 pont_arq = fopen("bancoProd.txt", "a");
 
 
+                //VALIDA SE ACHOU
                 if(pont_arq == NULL)
                 {
                 printf("Erro na abertura do arquivo!");
                 return 1;
                 }
 
-                //BLOCO LOOP PARA POPULAR
+                //BLOCO LOOP PARA POPULAR O BANCO DE PRODUTOS
                 do{
                     printf("Insira o codigo: ");
                     scanf("%d", &auxCod);
@@ -215,11 +317,14 @@ int main(){
                     printf("Insira a data de cadastro (dd-mm-yyyy): ");
                     scanf("%s", &data);
 
+                //COLOCA NO ARQUIVO
                 fprintf(pont_arq, "%d\n%s\n%d\n%f\n%f\n%s\n",auxCod,auxDesc,novoQtd,valU,valV,data);
 
+                //FECHA O ARQUIVO
                 fclose(pont_arq);
 
 
+                //VALIDA SE ELE QUER CONTINUAR
                 printf("Dados gravados com sucesso! Deseja inserir um novo produto? (1- SIM, 2-NAO):");
                 scanf("%d",&band);
 
@@ -227,37 +332,33 @@ int main(){
 
                 return 0;
 
-                //FIM BLOCO PARA POPULA
+                //FIM BLOCO PARA POPULAR O BANCO DE PRODUTOS
 
 
             } else {
                 // IF PARA ENTRAR NO CADASTRO DE VENDA
                 if(a == 2){
-                    printf("Cadastrar vendas \n");
-                    //BLOCO PARA CADASTRAR VENDA (BRENO)
+                    printf("TELA Cadastrar vendas\n");
+                    //BLOCO PARA CADASTRAR VENDA
 
                     FILE *pont_arqvenda;
 
+                    //ABRE O BANCO DE VENDOS
                     pont_arqvenda = fopen("cadastro_de_vendas.txt", "a");
 
-                     int prosseg = 1;
-                     int auxCodvend = 0, auxQtdvend = 0;
-                     char auxDescvend[150];
-                     char datavend[100];
-                     float valVvend = 0;
 
-
+                    //VALIDA SE ACHOU O ARQUIVO
                      if(pont_arqvenda == NULL)
-                                    {
-                                    printf("Erro na abertura do arquivo!");
-                                    return 1;
-                                    }
+                        {
+                        printf("Erro na abertura do arquivo!");
+                        return 1;
+                        }
 
                     do{
-                        printf("Insira o código: ");
+                        printf("Insira o codigo: ");
                         scanf("%d", &auxCodvend);
 
-                        printf("Insira a descrição: ");
+                        printf("Insira a descricao: ");
                         scanf("%s", auxDescvend);
 
                         printf("Insira a quantidade: ");
@@ -273,47 +374,41 @@ int main(){
 
                     fclose(pont_arqvenda);
 
+                    //COLOCA NO ARQUIVO
                     printf("Dados gravados com sucesso! Deseja inserir uma nova venda? (1- SIM, 2-NAO):");
 
+                    //FECHA O ARQUIVO
                      scanf("%d",&prosseg);
 
                     }while(prosseg==1);
 
 
-                    //FIM BLOCO CADASTRAR VENDA (BRENO)
+                    //FIM BLOCO CADASTRAR VENDA
 
                 }
                 // ELSE CASO ELE NÃO COLOQUE 1 OU 2
                 else {
-                    printf("opção inválida! \n");
+                    printf("opcao invalida!\n");
+                    return 0;
                 }
             }
 
     } else {
-        // IF PARA VER SE O FUNCIONARIO VAI SER DE VISUALIZAÇÃO (BIA)
+        // IF PARA VER SE O FUNCIONARIO VAI SER DE VISUALIZAÇÃO
         if(id == 2){
 
-            //BLOCO PARA TRAZER OS DADOS DO TXT
+            //BLOCO PARA TRAZER OS DADOS PRO USUARIO
 
-            char line[99999];
-            int codArq;
-            int cnovo;
-            int qtdArq;
-            char descArq[99999];
-            char dtArq[99999];
-            float valUArq;
-            float valVArq;
-
-
+            //ABRE O BANCO DE PRODUTOS
             FILE *arquivo;
             arquivo = fopen("bancoProd.txt", "r");
 
             if (arquivo == NULL)
                 return EXIT_FAILURE;
 
-            //MONTA A TABELA AQUI, USANDO ESSAS VARIAVEIS
+            //MONTA A CABECALHO ANTES DE ENTRAR NO LOOP
             printf("****************************** \n");
-            printf("*  ID  *     PODUTO     *          DESCRICAO          *     VALOR     *  QUANTIDADE  *  \n");
+            printf("*  ID  *     PRODUTO     *          DESCRICAO          *     VALOR     *  QUANTIDADE  *  \n");
             printf("****************************** \n");
 
             while(!feof(arquivo))
@@ -326,36 +421,15 @@ int main(){
                 fscanf(arquivo, "%f\n", &valVArq);
                 fscanf(arquivo, "%s\n", &dtArq);
 
-                /*
-                printf("%d\n",cnovo);
-                printf("%s\n",descArq);
-                printf("%d\n",cnovo);
-                printf("%f\n",valUArq);
-                printf("%f\n",valVArq);
-                printf("%s\n",dtArq);
-                */
-
-
                 tabela(cnovo,descArq,descArq,valUArq,qtdArq);
 
 
             }
+            printf("\n");
 
-            //FIM BLOCO PRA TRAZER OS DADOS DO TXT
-
-             //BLOCO DE VISUALIZACAO DAS VENDAS (ADRIANO)
-
-
-             //FIM BLOCO VISUALIZACAO DAS VENDAS
-
-            //TALVEZ COLOCAR OPCAO DE GERAR RELATORIO AQUI DE VENDAS (ANDREGHEIT)
-              //RELATORIO ANDREGHT
-                int band1;
-                int band2;
-                int mesrelat;
                   printf("___________\n");
                         printf("|                               |\n");
-                        printf("| 1. GERAR RELATORIO            |\n");
+                        printf("| 1. GERAR RELATORIO VENDAS            |\n");
                         printf("| 2. SAIR                       |\n");
                         printf("  OPCAO: ");
                         scanf("%d", &band1);
@@ -365,14 +439,29 @@ int main(){
                             printf("\nTIPOS DE RELATORIO:\n");
                             printf("1 - Relatorio de vendas mensais\n");
                             printf("2 - Relatorio de vendas anuais\n");
-                            printf("3 - lucro mensal\n");
+                            printf("3 - Somatoria mensal\n");
                             printf("OPCAO: ");
                             scanf("%d", &band2);
 
+                            //RELATORIO MENSAL
                             if(band2 == 1){
-                                printf("\n Escolha o mês (1 - 12): ");
+                                printf("\n Escolha o mes (1 - 12): ");
                                 scanf("%d", &mesrelat);
-                                //relatorioMes(mesrelat);
+                                relatorioMes(mesrelat);
+                            //RELATORIO ANUAL
+                            }else if(band2 == 2){
+                                printf("\n Escolha o ano (YYYY): ");
+                                scanf("%d", &anorelat);
+                                relatorioAno(anorelat);
+                            //SOMA DE VENDAS EM UM MES
+                            }else if(band2==3){
+                                printf("\n Escolha o mes (1 - 12): ");
+                                scanf("%d", &mesrelat);
+                                relatorioSomaMes(mesrelat);
+                            }
+                            else{
+                                printf("opcao invalida");
+                                return 0;
                             }
 
                         }
@@ -381,8 +470,6 @@ int main(){
                         }
 
 
-
-                //FIM RELATORIO ANDREGHT
         } else {
             //NÃO INSERIU UM ID VÁLIDO
             printf("ID Inválido! \n");
